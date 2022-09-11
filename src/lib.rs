@@ -1,5 +1,8 @@
+#![feature(fs_try_exists)]
 use std::fs;
+use std::env;
 use std::io::Write;
+use std::error::Error;
 
 pub struct Config {
     pub proj_name: String,
