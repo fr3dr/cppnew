@@ -1,7 +1,7 @@
-#![feature(fs_try_exists)]
 use std::fs;
 use std::env;
 use std::io::Write;
+use std::path::Path;
 use std::error::Error;
 
 pub struct Config {
@@ -20,7 +20,7 @@ impl Config {
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    if !fs::try_exists(&config.proj_name)? {
+    if !Path::new(&config.proj_name).try_exists()? {
         // make project folder and change root
         fs::create_dir_all(&config.proj_name)?;
         env::set_current_dir(&config.proj_name)?;
@@ -66,7 +66,7 @@ int main()
 }",
         )?;
     } else {
-        println!("Folder already exists!");
+        return Err(format!("folder {} already exists", config.proj_name).into());
     }
 
     Ok(())
